@@ -1,4 +1,4 @@
-s# TemplateSystem
+# TemplateSystem
 
 **TemplateSystem** adalah template engine sederhana, mudah di gunakan dan cepat.
 
