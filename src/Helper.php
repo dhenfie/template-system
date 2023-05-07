@@ -14,11 +14,12 @@ if (!function_exists('section')) {
      * Alias of TemplateSystem::section()
      *
      * @param  string $section
+     * @param  string $content
      * @return void
      */
-    function section(string $section): void
+    function section(string $section, string $content = null): void
     {
-        TemplateSystem::getInstance()->section($section);
+        TemplateSystem::getInstance()->section($section, $content);
     }
 }
 
