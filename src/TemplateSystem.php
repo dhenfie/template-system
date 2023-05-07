@@ -264,7 +264,7 @@ final class TemplateSystem
      *
      * @return self
      */
-    public static function usingInstance()
+    public static function getInstance()
     {
         return self::$_instance;
     }

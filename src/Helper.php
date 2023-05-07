@@ -11,36 +11,42 @@ use Dhenfie\TemplateSystem\TemplateSystem;
 if (!function_exists('section')) {
 
     /**
-     * alias TemplateSystem::section()
+     * Alias of TemplateSystem::section()
      *
      * @param  string $section
      * @return void
      */
     function section(string $section): void
     {
-        TemplateSystem::usingInstance()->section($section);
+        TemplateSystem::getInstance()->section($section);
     }
 }
 
 if (!function_exists('endSection')) {
 
     /**
-     * alias TemplateSystem::endSection()
+     * Alias of TemplateSystem::endSection()
      *
      * @return void
      */
     function endSection(): void
     {
-        TemplateSystem::usingInstance()->endSection();
+        TemplateSystem::getInstance()->endSection();
     }
 }
 
 
 if (!function_exists('renderSection')) {
 
+    /**
+     * Alias of TemplateSystem::renderSection()
+     *
+     * @param string $section
+     * @return string
+     */
     function renderSection(string $section): string
     {
-        return TemplateSystem::usingInstance()->renderSection($section);
+        return TemplateSystem::getInstance()->renderSection($section);
     }
 }
 
@@ -48,73 +54,73 @@ if (!function_exists('renderSection')) {
 if (!function_exists('extend')) {
 
     /**
-     * alis TemplateSystem::extend()
+     * Alias of TemplateSystem::extend()
      *
      * @param  string $master
      * @return void
      */
     function extend(string $master)
     {
-        TemplateSystem::usingInstance()->extend($master);
+        TemplateSystem::getInstance()->extend($master);
     }
 }
 
 if (!function_exists('stack')) {
 
     /**
-     * alias TemplateSystem::stack()
+     * Alias of TemplateSystem::stack()
      *
      * @return void
      */
     function stack(): void
     {
-        TemplateSystem::usingInstance()->stack();
+        TemplateSystem::getInstance()->stack();
     }
 }
 
 if (!function_exists('endStack')) {
 
     /**
-     * alias TemplateSystem::endStack()
+     * Alias of TemplateSystem::endStack()
      *
      * @return void
      */
     function endStack(): void
     {
-        TemplateSystem::usingInstance()->endStack();
+        TemplateSystem::getInstance()->endStack();
     }
 }
 
 if (!function_exists('pushStack')) {
 
     /**
-     * alias TemplateSystem::endStack()
+     * Alias of TemplateSystem::endStack()
      *
      * @return void
      */
     function pushStack(): void
     {
-        TemplateSystem::usingInstance()->pushStack();
+        TemplateSystem::getInstance()->pushStack();
     }
 }
 
 if (!function_exists('endPushStack')) {
 
     /**
-     * alias TemplateSystem::endPushStack()
+     * Alias of TemplateSystem::endPushStack()
      *
      * @return void
      */
     function endPushStack(): void
     {
-        TemplateSystem::usingInstance()->endPushStack();
+        TemplateSystem::getInstance()->endPushStack();
     }
 }
 
 if (!function_exists('load')) {
-    
+
     /**
-     * alias TemplateSystem::load()
+     * Alias of TemplateSystem::load()
      *
      * @param string $file
      * @param array $data
@@ -122,6 +128,6 @@ if (!function_exists('load')) {
      */
     function load(string $file, array $data = []): void
     {
-        TemplateSystem::usingInstance()->load($file, $data);
+        TemplateSystem::getInstance()->load($file, $data);
     }
 }
