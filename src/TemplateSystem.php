@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Template System 
- * 
+ * Template System
+ *
  * @author fajar susilo <fajarsusilo1600@gmail.com>
  * @since 1.0.0
  * @license MIT
  */
-
-declare(strict_types=1);
 
 namespace Dhenfie\TemplateSystem;
 
@@ -17,120 +15,126 @@ use Exception;
 final class TemplateSystem
 {
     /**
-     * default path untuk file template
+     * location view path
      *
      * @var string
      */
     protected string $viewPath;
 
     /**
-     * untuk nama section
+     * section name used by block
      *
      * @var array
      */
     protected array $section = array();
 
     /**
-     * section yang sedang aktif
+     * the current section
      *
      * @var string|null
      */
     protected ?string $currentSection = null;
 
     /**
-     * file master atau parent yang akan di extend
+     * file master template
      *
      * @var string
      */
     protected string $master;
 
-    /** @var array */
+    /**
+     * array of tag script
+     *
+     * @var array
+     */
     public array $stackScript = [];
 
     /**
-     * singleton instance object agar bekerja di helper
-     * 
+     * the instance of class TemplateSystem
+     *
      * @var self
      */
     protected static $_instance;
 
     /**
-     * Constructor 
-     * 
+     * The Constructor class
+     *
      * @param  string|null $viewPath
      */
     public function __construct(?string $viewPath = null)
     {
-        if (!is_null($viewPath)) {
+        if (! is_null($viewPath)) {
             $this->setViewPath($viewPath);
         }
         self::$_instance = $this;
     }
 
     /**
-     * return view path
+     * Returns the view path.
+     *
+     * @return string
      */
-    public function getViewPath(): string
+    public function getViewPath() : string
     {
         return $this->viewPath;
     }
 
     /**
-     * return file master atau parent
+     * Returns the template master.
      *
      * @return string
      */
-    public function getMaster(): string
+    public function getMaster() : string
     {
         return $this->master;
     }
 
     /**
-     * set root directory untuk view
+     * Set root directory for template
      *
      * @param  string $viewPath
      * @return void
      */
-    public function setViewPath(string $viewPath): void
+    public function setViewPath(string $viewPath) : void
     {
-        if (!is_dir($viewPath)) {
+        if (! is_dir($viewPath)) {
             throw new Exception("root path {$viewPath} not valid ");
         }
         $this->viewPath = realpath($viewPath);
     }
 
     /**
-     * mulai dan buat section
+     * start and create new block section
      *
-     * @param  string $section
+     * @param  string $section the section name
      * @return void
      */
-    public function section(string $section): void
+    public function section(string $section) : void
     {
-        $this->currentSection = $section;
+        $this->currentSection    = $section;
         $this->section[$section] = null;
         ob_start();
     }
 
-    /** 
-     * stop sebuah section
-     * 
+    /**
+     * end the section
+     *
      * @return void
      */
-    public function endSection(): void
+    public function endSection() : void
     {
-        $sectionName = $this->currentSection;
+        $sectionName                 = $this->currentSection;
         $this->section[$sectionName] = ob_get_contents();
         ob_end_clean();
     }
 
     /**
-     * tampilkan section
+     * render or show block section by name section
      *
-     * @param  string $section
-     * @return string
+     * @param  string $section the section name
+     * @return string Return the value of defined block section or empty string if block section name not defined
      */
-    public function renderSection(string $section): string
+    public function renderSection(string $section) : string
     {
         if (array_key_exists($section, $this->section)) {
             return $this->section[$section];
@@ -139,21 +143,21 @@ final class TemplateSystem
     }
 
     /**
-     * stack script
+     * start and create new block section for stack script
      *
      * @return void
      */
-    public function stack(): void
+    public function stack() : void
     {
         ob_start();
     }
 
     /**
-     * end stack
+     * end block section for stack script
      *
      * @return void
      */
-    public function endStack(): void
+    public function endStack() : void
     {
         $content = ob_get_contents();
         ob_end_clean();
@@ -169,57 +173,57 @@ final class TemplateSystem
     }
 
     /**
-     * push stack
+     * push or add new tags script in section
      *
      * @return void
      */
-    public function pushStack(): void
+    public function pushStack() : void
     {
         ob_start();
     }
 
     /**
-     * end push stack
+     * end or stop pushing tags script
      *
      * @return void
      */
-    public function endPushStack(): void
+    public function endPushStack() : void
     {
         $content = ob_get_contents();
         ob_end_clean();
 
-        $contentToArray = explode("\n", $content);
-        $merged = array_merge($this->stackScript, $contentToArray);
+        $contentToArray    = explode("\n", $content);
+        $merged            = array_merge($this->stackScript, $contentToArray);
         $this->stackScript = $merged;
     }
 
     /**
-     * pewarisan templates
+     * Template inheritance
      *
      * @param  string $master
      * @return void
      */
-    public function extend(string $master): void
+    public function extend(string $master) : void
     {
-        if (!file_exists($this->getViewPath() . DIRECTORY_SEPARATOR . $master)) {
+        if (! file_exists($this->getViewPath() . DIRECTORY_SEPARATOR . $master)) {
             throw new Exception("can't extending file " . basename($master) . " not found");
         }
         $this->master = $master;
     }
 
     /**
-     * load file dan extract variabel jika ada
+     * include file and extract data
      *
      * @param  string $file
      * @param  array  $data
      * @return void
      */
-    public function load(string $file, array $data = []): void
+    public function load(string $file, array $data = []) : void
     {
-        if (!file_exists($pathFile = $this->getViewPath() . DIRECTORY_SEPARATOR . $file)) {
+        if (! file_exists($pathFile = $this->getViewPath() . DIRECTORY_SEPARATOR . $file)) {
             throw new Exception("target file {$pathFile} not found in directory {$this->getViewPath()}");
         }
-        (is_array($data) && !empty($data)) ? extract($data) : '';
+        (is_array($data) && ! empty($data)) ? extract($data) : '';
         include $pathFile;
     }
 
@@ -230,28 +234,33 @@ final class TemplateSystem
      * @param  array  $data
      * @return mixed
      */
-    public function render(string $file, array $data = [], $return = true): mixed
+    public function render(string $file, array $data = [], $return = true) : mixed
     {
 
-        if ($return){
+        if ($return) {
+
             ob_start();
+
             $this->load($file, $data);
+
             if (isset($this->master)) {
                 $this->load($this->getMaster(), $data);
             }
+
             $contents = ob_get_contents();
             ob_end_clean();
             return $contents;
         }
 
         $this->load($file, $data);
+
         if (isset($this->master)) {
             $this->load($this->getMaster(), $data);
         }
     }
 
     /**
-     * ini mengembalikan instance object saat
+     * Return the instance of class TemplateSystem
      *
      * @return self
      */
