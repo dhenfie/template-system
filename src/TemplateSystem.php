@@ -107,13 +107,19 @@ final class TemplateSystem
      * start and create new block section
      *
      * @param  string $section the section name
+     * @param  string $content optional data
      * @return void
      */
-    public function section(string $section) : void
+    public function section(string $section, string $content = null) : void
     {
-        $this->currentSection    = $section;
-        $this->section[$section] = null;
-        ob_start();
+        if (is_null($content)) {
+            $this->currentSection    = $section;
+            $this->section[$section] = null;
+            ob_start();
+        } else {
+            $this->currentSection                 = $section;
+            $this->section[$this->currentSection] = $content;
+        }
     }
 
     /**
