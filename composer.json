@@ -5,7 +5,6 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "exclude-from-classmap": ["tests\\"],
             "Dhenfie\\TemplateSystem\\": "src/"
         },
         "files": [
